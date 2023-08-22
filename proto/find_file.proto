@@ -5,9 +5,9 @@ service FileService {
 }
 
 message FileName {
-    string name = 1
+    string name = 1;
 }
 
 message FileExistance {
-    bool existnace = 1;
+    bool existence = 1;
 }
