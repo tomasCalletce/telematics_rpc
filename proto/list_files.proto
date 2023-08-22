@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+service FileService {
+    rpc ListFiles (EmptyRequest) returns (FileList);
+}
+
+message EmptyRequest {}
+
+message FileList {
+    repeated string filenames = 1;
+}

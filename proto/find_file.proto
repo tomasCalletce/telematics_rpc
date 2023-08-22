@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service FileService {
+    rpc FindFile (FileName) returns (FileExistance);
+}
+
+message FileName {
+    string name = 1
+}
+
+message FileExistance {
+    bool existnace = 1;
+}
