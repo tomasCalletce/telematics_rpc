@@ -20,13 +20,21 @@ const findFilePackageDefinition = protoLoader.loadSync(findFilePROTO_PATH);
 const findFileService = grpc.loadPackageDefinition(findFilePackageDefinition).FileService;
 const findFileClient = new findFileService(`127.0.0.1:${findFilePORT}`,grpc.credentials.createInsecure());
 
+function callMom() {
+  console.log('sent request to mom');
+}
+
 // list all files endpoint
 app.get('/list', (req, res) => {
   listFileClient.ListFiles({}, (error, response) => {
     if (error) {
+      try {
+        callMom();
+      } catch (error) {
         console.error('Error calling the gRPC service', error);
         res.status(500).send('Error calling microservice');
         return;
+      }   
     }
     res.json(response.filenames);
   });
@@ -36,9 +44,13 @@ app.get('/list', (req, res) => {
 app.get('/search', (req, res) => {
   findFileClient.FindFile({ name: req.query.name }, (error, response) => {
     if (error) {
-      console.error('Error calling the gRPC service', error);
-      res.status(500).send('Error calling microservice');
-      return;
+      try {
+        callMom();
+      } catch (error) {
+        console.error('Error calling the gRPC service', error);
+        res.status(500).send('Error calling microservice');
+        return;
+      }   
     }
     res.json(response);
   });

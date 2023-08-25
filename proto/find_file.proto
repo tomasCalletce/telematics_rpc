@@ -1,13 +1,13 @@
 syntax = "proto3";
 
 service FileService {
-    rpc FindFile (FileName) returns (FileExistance);
+    rpc FindFile (FileName) returns (FilesFound);
 }
 
 message FileName {
     string name = 1;
 }
 
-message FileExistance {
-    bool existence = 1;
+message FilesFound {
+    repeated string found = 1;
 }
