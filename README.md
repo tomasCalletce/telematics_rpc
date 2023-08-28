@@ -1,33 +1,25 @@
-# Reto2
-#
-# 1. breve descripción de la actividad
+## Reto 2
 
-#1.1. Que aspectos cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
+Breve descripción de la actividad:
+Crear un API Gateway con conexión a 2 microservicios: "search file" y "list files". Si falla algún servicio, entonces se debe enviar el request al MOM (Message Oriented Middleware).
 
-## 1.2. Que aspectos NO cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)
+1.1. ¿Qué aspectos cumplió o desarrolló de la actividad propuesta por el profesor (requerimientos funcionales y no funcionales)?
+Cumplí con todos los objetivos. Para mejorar, se puede evitar repetir la lógica de "search file" y "list file" en Python y JS. En el futuro, el "consumer" debería estar escrito en JS y ambos, Python y JS, deberían importar la función adecuada.
 
-# 2. información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
+1.2 Información general de diseño de alto nivel, arquitectura, patrones y mejores prácticas utilizadas:
+Se creó un directorio para cada servicio y un solo directorio para los protos.
+Descripción del ambiente de desarrollo y técnico:
 
-# 3. Descripción del ambiente de desarrollo y técnico: lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
+1.3 Lenguajes de programación: JS, Python
+Frameworks y bibliotecas: Express, gRPC, RabbitMQ
 
-## como se compila y ejecuta.
-## detalles del desarrollo.
-## detalles técnicos
-## descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
-## opcional - detalles de la organización del código por carpetas o descripción de algún archivo. (ESTRUCTURA DE DIRECTORIOS Y ARCHIVOS IMPORTANTE DEL PROYECTO, comando 'tree' de linux)
-## 
-## opcionalmente - si quiere mostrar resultados o pantallazos 
+Instrucciones de compilación y ejecución:
+Ejecutar npm i en el root.
+Ejecutar pip install en /rabbitmq.
+Es necesario tener Python y Node instalados en la máquina.
+Para ejecutar cada parte del sistema, navega a los respectivos directorios y ejecuta el archivo principal con node main.
 
-# 4. Descripción del ambiente de EJECUCIÓN (en producción) lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
+IP o nombres de dominio:
+52.55.99.177
 
-# IP o nombres de dominio en nube o en la máquina servidor.
 
-## descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
-
-## como se lanza el servidor.
-
-## una mini guia de como un usuario utilizaría el software o la aplicación
-
-## opcionalmente - si quiere mostrar resultados o pantallazos 
-
-# 5. otra información que considere relevante para esta actividad.
