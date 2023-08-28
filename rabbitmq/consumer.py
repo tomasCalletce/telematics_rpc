@@ -15,8 +15,8 @@ def callback(ch, method, properties, body):
         for file_name in files:
           print(file_name)
         return
-    if(body == b'help'):
-        print('help')
+    if(body == b'search'):
+        print('search')
         return
     channel.stop_consuming()
     
