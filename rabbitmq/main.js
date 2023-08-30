@@ -15,9 +15,13 @@ amqp.connect(AMQP_URL, (err, connection) => {
     }
 
     channel.consume('serve-queue', (msg) => {
-      const body = JSON.parse(msg.content.toString());
-      
-      handle(body);
+      console.log(msg);
+      try {
+        const body = JSON.parse(msg.content.toString());
+        handle(body);
+      } catch (error) {
+        
+      }
       channel.ack(msg);
     });
   });
