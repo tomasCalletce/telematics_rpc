@@ -1,30 +1,28 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
-const fs = require('fs');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const PROTO_PATH = path.resolve(__dirname, '../proto/list_files.proto');
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const fileServiceProto = grpc.loadPackageDefinition(packageDefinition);
+const services = require('./services/listFiles') 
 
-const DIRECTORY_PATH = path.join(__dirname, '../files');
 const PORT = process.env.LIST_FILE_PORT;
 const ID = process.env.LIST_FILE_IP;
 
 const server = new grpc.Server();
 
-const listFiles = (call, callback) => {
-    fs.readdir(DIRECTORY_PATH, (err, files) => {
-        if (err) {
-            callback({
-                code: grpc.status.INTERNAL,
-                details: "Error reading directory"
-            });
-            return;
-        }
-        callback(null, { filenames: files });
-    });
+const listFiles = async (call, callback) => {
+    try {
+      const files = await services.listFiles();
+      callback(null, { filenames: files });
+    } catch (error) {
+      callback({
+        code: grpc.status.INTERNAL,
+        details: "Error reading directory"
+      });
+    }
 };
 
 server.addService(fileServiceProto.FileService.service, { ListFiles: listFiles });
