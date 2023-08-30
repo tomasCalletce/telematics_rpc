@@ -15,9 +15,9 @@ amqp.connect(AMQP_URL, (err, connection) => {
     }
 
     channel.consume('serve-queue', (msg) => {
-      console.log(msg);
       try {
         const body = JSON.parse(msg.content.toString());
+        console.log(`${body.type}: ${body.value} is received`);
         handle(body);
       } catch (error) {
         
