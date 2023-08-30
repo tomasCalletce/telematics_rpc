@@ -3,28 +3,29 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const path = require('path');
 const amqp = require('amqplib/callback_api');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 // file service 
 const listFilePROTO_PATH = path.resolve(__dirname, '../proto/list_files.proto');
-const listFilePORT = 50051;
+const listFilePORT = process.env.LIST_FILE_PORT;
 const listFilePackageDefinition = protoLoader.loadSync(listFilePROTO_PATH);
 const listFileService = grpc.loadPackageDefinition(listFilePackageDefinition).FileService;
-const listFileClient = new listFileService(`127.0.0.1:${listFilePORT}`,grpc.credentials.createInsecure());
+const listFileClient = new listFileService(`${process.env.LIST_FILE_IP}:${listFilePORT}`, grpc.credentials.createInsecure());
 
 // search service
 const findFilePROTO_PATH = path.resolve(__dirname, '../proto/find_file.proto');
-const findFilePORT = 50052;
+const findFilePORT = process.env.FIND_FILE_PORT;
 const findFilePackageDefinition = protoLoader.loadSync(findFilePROTO_PATH);
 const findFileService = grpc.loadPackageDefinition(findFilePackageDefinition).FileService;
-const findFileClient = new findFileService(`127.0.0.1:${findFilePORT}`,grpc.credentials.createInsecure());
+const findFileClient = new findFileService(`${process.env.FIND_FILE_IP}:${findFilePORT}`, grpc.credentials.createInsecure());
 
 function callMom(msg) {
     const exchange = 'serve';
 
-    amqp.connect('amqp://user:password@52.55.99.177:5672/', function(error0, connection) {
+    amqp.connect(`amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}/`, function(error0, connection) {
         if (error0) {
             console.error('Error connecting to RabbitMQ:', error0);
             throw error0;
@@ -87,5 +88,5 @@ app.get('/search', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://${process.env.API_GATEWAY_IP}:${PORT}`);
 });
