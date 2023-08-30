@@ -57,7 +57,10 @@ app.get('/list', (req, res) => {
     if (error) {
       try {
         res.status(500).send('Error calling microservice, calling mom instead');
-        callMom('list');
+        callMom(JSON.stringify({
+          type : 'search',
+          value : req.query.name 
+        }));
       } catch (error) {
         console.error('Error calling the gRPC service', error);
         res.status(500).send('Error calling microservice');
@@ -75,7 +78,10 @@ app.get('/search', (req, res) => {
     if (error) {
       try {
         res.status(500).send('Error calling microservice, calling mom instead');
-        callMom('search');
+        callMom(JSON.stringify({
+          type : 'search',
+          value : req.query.name 
+        }));
       } catch (error) {
         console.error('Error calling the gRPC service', error);
         res.status(500).send('Error calling microservice');
