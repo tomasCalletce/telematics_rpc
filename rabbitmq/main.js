@@ -4,6 +4,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const searchService = require('../find_file/services/findFile');
 const listService = require('../list_files/services/listFiles');
+const rabbitMQService = require('./services/email')
 
 const AMQP_URL = `amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}/`;
 
@@ -21,7 +22,6 @@ amqp.connect(AMQP_URL, (err, connection) => {
 
       try {
         const body = JSON.parse(msg.content.toString());
-        console.log(`${body.type}: ${body.value} is received`);
         handle(body);
       } catch (error) {
         console.log(error);
@@ -31,12 +31,17 @@ amqp.connect(AMQP_URL, (err, connection) => {
   });
 });
 
-const handle = (body) => {
+const send = (email,package) => {
+  console.log(`sent ${package} to ${email}`);
+  rabbitMQService.sendMessage(package,email);
+}
+
+const handle = async (body) => {
   if(body.type === 'list'){
-    const files = listService.listFiles();
-    console.log(files);
+    const files = await listService.listFiles();
+    send(body.email,files);
   }else if(body.type === 'search'){
-    const files = searchService.findFile(body.value);
-    console.log(files);
+    const files = await searchService.findFile(body.value);
+    send(body.email,files);
   }
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.9.0",
     "@grpc/proto-loader": "^0.7.8",
+    "@sendgrid/mail": "^7.7.0",
     "amqp": "^0.2.7",
     "amqplib": "^0.10.3",
     "dotenv": "^16.3.1",
