@@ -2,6 +2,9 @@ const amqp = require('amqplib/callback_api');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
+const searchService = require('../find_file/services/findFile');
+const listService = require('../list_files/services/listFiles');
+
 const AMQP_URL = `amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}/`;
 
 amqp.connect(AMQP_URL, (err, connection) => {
@@ -30,8 +33,10 @@ amqp.connect(AMQP_URL, (err, connection) => {
 
 const handle = (body) => {
   if(body.type === 'list'){
-    console.log(body.value);
+    const files = listService.listFiles();
+    console.log(files);
   }else if(body.type === 'search'){
-    console.log(body.value);
+    const files = searchService.findFile(body.value);
+    console.log(files);
   }
 }
