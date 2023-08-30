@@ -58,7 +58,7 @@ app.get('/list', (req, res) => {
       try {
         res.status(500).send('Error calling microservice, calling mom instead');
         callMom(JSON.stringify({
-          type : 'search',
+          type : 'list',
           value : req.query.name 
         }));
       } catch (error) {

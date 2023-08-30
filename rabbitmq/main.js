@@ -15,12 +15,13 @@ amqp.connect(AMQP_URL, (err, connection) => {
     }
 
     channel.consume('serve-queue', (msg) => {
+
       try {
         const body = JSON.parse(msg.content.toString());
         console.log(`${body.type}: ${body.value} is received`);
         handle(body);
       } catch (error) {
-        
+        console.log(error);
       }
       channel.ack(msg);
     });
@@ -28,5 +29,9 @@ amqp.connect(AMQP_URL, (err, connection) => {
 });
 
 const handle = (body) => {
-  console.log(body);
+  if(body.type === 'list'){
+    console.log(body.value);
+  }else if(body.type === 'search'){
+    console.log(body.value);
+  }
 }
